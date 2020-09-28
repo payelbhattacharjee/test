@@ -1,0 +1,28 @@
+https://github.com/payelbhattacharjee/amdocsdemo.git
+
+
+
+pipeline {
+   agent any
+
+   stages {
+       stages('Build') {
+          steps {
+             git 'https://github.com/payelbhattacharjee/amdocsdemo.git'
+             
+             bat 'mvn -B compile'
+          }
+       }
+  
+       stages('test') {
+          steps {
+             bat 'mvn test'
+          }
+          post {
+               always {
+                   junit 'target/surefire-reports/* .xml'
+               }
+          }
+       }
+   }
+}    
